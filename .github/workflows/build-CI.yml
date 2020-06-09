@@ -29,11 +29,11 @@ jobs:
 
       - name: Clone Lean's openwrt
         run: |
-          git clone https://github.com/coolsnowwolf/lede
+          git clone https://github.com/xiaoqingfengATGH/HomeLede.git homeLede
 
       - name: Install feeds
         run: |
-          cd lede
+          cd homeLede
           
           git clone https://github.com/tuanqing/lede-mod
           git clone https://github.com/tuanqing/install-program package/install-program
@@ -49,7 +49,7 @@ jobs:
 
       - name: Make config
         run: |
-          cd lede
+          cd homeLede
 
           cat > .config << EOF
           CONFIG_TARGET_armvirt=y
@@ -66,15 +66,15 @@ jobs:
 
       - name: Compile openwrt
         run: |
-          cd lede
+          cd homeLede
           make download -j8
           make -j$(nproc) || make -j1 V=s
 
       - name: Build firmware
         run: |
-          cp lede/bin/targets/*/*/*.tar.gz ./openwrt
+          cp homeLede/bin/targets/*/*/*.tar.gz ./openwrt
           sudo ./make -d
-          cp lede/.config out/config.seed
+          cp homeLede/.config out/config.seed
 
           cd out
           i=0
