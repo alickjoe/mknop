@@ -6883,6 +6883,7 @@ jobs:
 
       - name: Compile openwrt
         run: |
+          cd homeLede
           make download -j8 V=s
           make -j$(nproc) || make -j1 V=s
 
