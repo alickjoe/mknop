@@ -4023,7 +4023,7 @@ jobs:
           # CONFIG_PACKAGE_knot-libzscanner is not set
           # CONFIG_PACKAGE_libaio is not set
           CONFIG_PACKAGE_libalac=m
-          CONFIG_PACKAGE_libantlr3c=m
+          # CONFIG_PACKAGE_libantlr3c=m
           # CONFIG_PACKAGE_libao is not set
           # CONFIG_PACKAGE_libapr is not set
           # CONFIG_PACKAGE_libaprutil is not set
