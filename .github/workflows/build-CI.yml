@@ -1,9 +1,8 @@
 name: N1-OpenWrt-CI
 
 on:
-  commit_comment: 'run CI'
   schedule:
-    - cron: '0 22 * * *'
+    - cron: '0 5.45 * *'
   repository_dispatch:
     types: run
     
