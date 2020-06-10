@@ -31,21 +31,21 @@ jobs:
         run: |
           git clone https://github.com/xiaoqingfengATGH/HomeLede.git homeLede
 
-      - name: Install feeds
-        run: |
-          cd homeLede
+#      - name: Install feeds
+#       run: |
+#          cd homeLede
+#          
+#          git clone https://github.com/tuanqing/lede-mod
+#          git clone https://github.com/tuanqing/install-program package/install-program
+#          svn co https://github.com/Lienol/openwrt-package/trunk/lienol/luci-theme-bootstrap-mod package/luci-theme-bootstrap-mod
+#
+#          git apply lede-mod/lede/*.patch
+#          
+#          ./scripts/feeds update -a
+#          ./scripts/feeds install -a
           
-          git clone https://github.com/tuanqing/lede-mod
-          git clone https://github.com/tuanqing/install-program package/install-program
-          svn co https://github.com/Lienol/openwrt-package/trunk/lienol/luci-theme-bootstrap-mod package/luci-theme-bootstrap-mod
-
-          git apply lede-mod/lede/*.patch
-          
-          ./scripts/feeds update -a
-          ./scripts/feeds install -a
-          
-          git apply lede-mod/luci/*.patch --directory=feeds/luci
-          git apply lede-mod/bootstrap/*.patch --directory=package/luci-theme-bootstrap-mod
+#          git apply lede-mod/luci/*.patch --directory=feeds/luci
+#          git apply lede-mod/bootstrap/*.patch --directory=package/luci-theme-bootstrap-mod
 
       - name: Make config
         run: |
@@ -67,8 +67,9 @@ jobs:
       - name: Compile openwrt
         run: |
           cd homeLede
-          make download -j8
-          make -j$(nproc) || make -j1 V=s
+          ./prepareCompile.sh
+          make download -j8 V=s
+          make -j$(nproc) || make -j8 V=sc
 
       - name: Build firmware
         run: |
