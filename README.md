@@ -1,7 +1,7 @@
 # 自动构建斐讯N1 OpenWrt固件脚本
 # Automatically Build OpenWrt Firmware for PHICOMM N1
 
-**制作脚本已部署到Github Action，真正实现一栈式全自动构建，每天早上六点准时为你构建，无须自行制作，下载即可用**
+**制作脚本已部署到Github Action，真正实现一栈式全自动构建，每周六早上六点准时为你构建，无须自行制作，下载即可用**
 
 [![N1-OpenWrt-CI](https://github.com/tuanqing/mknop/workflows/N1-OpenWrt-CI/badge.svg?branch=master)](https://github.com/tuanqing/mknop/actions)  
  👆👆👆&nbsp; &nbsp; 戳上面查看构建状态
@@ -23,15 +23,14 @@
    一键安装到emmc脚本已迁移至openwrt package，解决需要自选依赖的问题。使用方法如下，悉知！！**
 
    **用法**：  
-   0、如果使用官方或其他源码，可能会缺少parted这个包，执行下面的命令从Lean的仓库中checkout  
-      &nbsp; &nbsp; &nbsp; `svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/parted package/parted`  
    1、`git clone https://github.com/tuanqing/install-program package/install-program`  
    2、执行 `make menuconfig` ，选中Utilities下的install-program
       ``` 
       Utilities  --->  
          <*> install-program
       ```
-   3、编译完成之后使用本源码制作镜像写入U盘启动，之后执行 `n1-install` 即可安装到emmc
+   3、编译完成之后使用本源码制作镜像写入U盘启动，之后执行 `n1-install` 即可安装到emmc  
+   4、将固件上传到 `/tmp/upgrade`( xxx.img )，之后执行 `n1-update` 即可从该固件升级
 
 3. 克隆仓库到本地  
    `git clone https://github.com/tuanqing/mknop` 
@@ -57,9 +56,8 @@
    │       ├── boot-common.tar.gz            公有启动文件
    │       ├── firmware.tar.gz               armbian固件
    │       ├── kernel                        内核文件夹，在它下面添加你的自定义内核
-   │       │   ├── 4.18.7                    4.18.7-aml-s9xxx @XQ7
-   │       │   ├── 4.19.106                  4.19.106-amlogic-flippy-27o @flippy
-   │       │   └── 5.4.43                    5.4.43-amlogic-flippy-37+o @flippy
+   │       │   ├── 4.19.134                  kernel 4.19.134-mainline
+   │       │   └── 5.4.50                    kernel 5.4.50-flippy-38+o @flippy
    │       └── root                          rootfs文件夹，在它下面添加你的自定义文件
    ├── LICENSE                               license
    ├── make                                  构建脚本
@@ -73,16 +71,17 @@
    * `-c, --clean` ，清理临时文件和输出目录
    * `-d, --default` ，使用默认配置来构建固件( openwrt下的第一个固件、构建所有内核、ROOTFS分区大小为512m )
    * `--kernel` ，显示kernel文件夹下的所有内核
-   * `-k=VERSION` ，设置内核版本，设置为 `all` 将会构架所有内核的固件
+   * `-k=VERSION` ，设置内核版本，设置为 `all` 将会构架所有内核版本固件，设置为 `latest` 将构建最新内核版本固件
    * `-s, --size=SIZE` ，设置ROOTFS分区大小，不要小于256m
    * `-h, --help` ，显示帮助信息
    * examples：  
       `sudo ./make -c` ，清理文件  
       `sudo ./make -d` ，使用默认配置  
-      `sudo ./make -k 4.19.106` ，将内核版本设置为4.19.106  
+      `sudo ./make -k 4.19.134` ，将内核版本设置为4.19.134  
+      `sudo ./make -k latest` ，使用最新内核  
       `sudo ./make -s 256` ，将ROOTFS分区大小设置为256m  
       `sudo ./make -d -s 256` ，使用默认，并将分区大小设置为256m  
-      `sudo ./make -d -s 256 -k 4.19.106` ，使用默认，并将分区大小设置为256m，内核版本设置为4.19.106
+      `sudo ./make -d -s 256 -k 4.19.134` ，使用默认，并将分区大小设置为256m，内核版本设置为4.19.134
 
 * 自定义
    * 使用自定义内核  
